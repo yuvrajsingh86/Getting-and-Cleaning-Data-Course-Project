@@ -29,11 +29,11 @@ https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Datas
 ### Section 2. Merge the file
 Merge the test and training data using cbind and r bind function
 
-## Section 3. Extract the measurement for mean and standard deviation for each measurement 
+### Section 3. Extract the measurement for mean and standard deviation for each measurement 
 Create a vector by finding the values of mean|std|Subject|ActivityId" in the data set and keep the required data
 
-## Section 4. Change the label of the data to more logincal ones
+### Section 4. Change the label of the data to more logincal ones
 As per instruction we need to appropriately labels the data set with descriptive variable names. 
 
-## Section 5. Create a tidy data set
-, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+### Section 5. Create a tidy data set
+creates a second, independent tidy data set with the average of each variable for each activity and each subject. The file that is generated here is Clean_data.txt.
