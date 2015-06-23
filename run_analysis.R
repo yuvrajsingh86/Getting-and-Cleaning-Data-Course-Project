@@ -3,26 +3,34 @@ library(plyr)
 # Step 1
 # Read the training and test data Set to create one Set
 
+#Get Training Data
 x_Train <-read.table('train/x_train.txt'); 
 y_Train  <- read.table('train/y_train.txt'); 
 subject_train <- read.table("train/subject_train.txt");
-features     <- read.table('features.txt', colClasses = c("character") );
-activityType <- read.table('activity_labels.txt',col.names = c("ActivityId", "Activity"));
 
 
+#Get Test Data
 subjectTest <- read.table('test/subject_test.txt'); 
 x_Test       <- read.table('test/x_test.txt'); 
 y_Test       <- read.table('test/y_test.txt');
 
+#Get Features and activities
+features     <- read.table('features.txt', colClasses = c("character") );
+activityType <- read.table('activity_labels.txt',col.names = c("ActivityId", "Activity"));
+
 #Step 2 Merge training and test data to create on data set
 
-training_data <- cbind(cbind(x_Train, subject_train), y_Train);
-test_data <- cbind(cbind(x_Test, subjectTest), y_Test)
-sensor_data <- rbind(training_data, test_data)
+training_data <- cbind(x_Train, subject_train);
+training_data <-cbind(training_data,y_train)
+
+test_data <- cbind(x_Test, subjectTest);
+test_data<- cbind(test_data, y_Test)
+
+sensor_data <- rbind(training_data, test_data);
 names(sensor_data)<-rbind(rbind(features, c(562, "Subject")), c(563, "ActivityId"))[,2]
 
 #Step 3 Extract the measurement for mean and standard deviation for each measurement
-sensor_data_final <- sensor_data[,grepl("mean|std|Subject|ActivityId", names(sensor_data))]
+sensor_data_final <- sensor_data[,grepl("mean|std|Subject|ActivityID", names(sensor_data))]
 
 finalData <- join(sensor_data_final, activityType, by = "ActivityId", match = "first");
 finalData <- finalData[,-1]
@@ -39,8 +47,8 @@ names(sensor_data_final) <- gsub('^t',"Time_Dom.",names(sensor_data_final))
 names(sensor_data_final) <- gsub('^f',"Frequency_Dom.",names(sensor_data_final))
 names(sensor_data_final) <- gsub('\\.mean',".Mean",names(sensor_data_final))
 names(sensor_data_final) <- gsub('\\.std',".Standard_Deviation",names(sensor_data_final))
-names(sensor_data_final) <- gsub('Freq\\.',"Frequency.",names(sensor_data_final))
-names(sensor_data_final) <- gsub('Freq$',"Frequency",names(sensor_data_final))
+names(sensor_data_final) <- gsub('Freq$',"Frequency.",names(sensor_data_final))
+
 
 #Step 5 Write to a clean file
 
