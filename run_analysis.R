@@ -16,7 +16,7 @@ y_Test       <- read.table('test/y_test.txt');
 
 #Get Features and activities
 features     <- read.table('features.txt', colClasses = c("character") );
-activityType <- read.table('activity_labels.txt',col.names = c("ActivityId", "Activity"));
+activityType <- read.table('activity_labels.txt',col.names = c("Id", "Activity"));
 
 #Step 2 Merge training and test data to create on data set
 
@@ -27,12 +27,12 @@ test_data <- cbind(x_Test, subjectTest);
 test_data<- cbind(test_data, y_Test)
 
 sensor_data <- rbind(training_data, test_data);
-names(sensor_data)<-rbind(rbind(features, c(562, "Subject")), c(563, "ActivityId"))[,2]
+names(sensor_data)<-rbind(rbind(features, c(562, "Subject")), c(563, "Id"))[,2]
 
 #Step 3 Extract the measurement for mean and standard deviation for each measurement
-sensor_data_final <- sensor_data[,grepl("mean|std|Subject|ActivityID", names(sensor_data))]
+sensor_data_final <- sensor_data[,grepl("mean|std|Subject|ID", names(sensor_data))]
 
-finalData <- join(sensor_data_final, activityType, by = "ActivityId", match = "first");
+finalData <- join(sensor_data_final, activityType, by = "Id", match = "first");
 finalData <- finalData[,-1]
 
 
